@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
@@ -13,9 +13,22 @@ const FormularioTarea = () => {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm()
 
-const enviadoForm = (data)=> console.log(data)
+  // creamos el array con la variente que va a guardar los elementos en ella
+  const [arrayTareas, setarrayTareas] = useState([])
+
+
+const enviadoForm = (data)=>{
+  if (arrayTareas.some((itarea) => itarea === data.tarea.trim())) {
+    alert('la tarea ya existe')
+  }else{
+    setarrayTareas([...arrayTareas, data.tarea])
+    reset()
+    console.log(arrayTareas)
+  }
+}
 
 
   return (
