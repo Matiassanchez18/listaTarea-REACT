@@ -32,6 +32,15 @@ const enviadoForm = (data)=>{
 }
 
 
+// funcionalidad para eliminar tareas
+const borrarTarea = (tareaBorrar) =>{
+  // busca la tarea que tiene el mismo nombre, que es la que se quiere elimiar, y se encuentra con el filter
+  const tareaEncotrada = arrayTareas.filter((tarea)=> tarea !== tareaBorrar)
+  // aqui se guarda solo la tarea encontrada y la que se va a eliminar.
+  setarrayTareas(tareaEncotrada)
+}
+
+
   return (
     <section>
       <h1 className="text-center mt-5 border-bottom ">Lista de tarea</h1>
@@ -69,7 +78,7 @@ const enviadoForm = (data)=>{
         
       </form>
       {/* aqui se envia la informacion del array al componente que dibuja los slots de las acciones, se puede mandar informacion de padre a hijo */}
-      <ListaTarea className="mt-3" arrayTareas={arrayTareas}></ListaTarea>
+      <ListaTarea className="mt-3" arrayTareas={arrayTareas} borrarTarea ={borrarTarea}></ListaTarea>
     </section>
   );
 };
