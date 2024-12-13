@@ -8,8 +8,8 @@ import { PlusCircle } from "react-bootstrap-icons";
 const FormularioTarea = () => {
   return (
     <section>
-      <h1 className="text-center mt-5 border-bottom">Lista de tarea</h1>
-      <form action="" className="w-50 mx-auto px-4">
+      <h1 className="text-center mt-5 border-bottom ">Lista de tarea</h1>
+      <form action="" className="w-50 mx-auto px-4 mt-5">
         <InputGroup className="mb-3">
           <Form.Control
             className="bg-white text-dark"
