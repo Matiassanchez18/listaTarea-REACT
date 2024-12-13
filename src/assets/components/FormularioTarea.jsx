@@ -4,6 +4,7 @@ import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Button from "react-bootstrap/Button";
 import { PlusCircle } from "react-bootstrap-icons";
+import ListaTarea from "./ListaTarea";
 
 const FormularioTarea = () => {
   return (
@@ -26,6 +27,7 @@ const FormularioTarea = () => {
           </Button>
         </InputGroup>
       </form>
+      <ListaTarea></ListaTarea>
     </section>
   );
 };

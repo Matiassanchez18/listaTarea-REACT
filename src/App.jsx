@@ -10,7 +10,6 @@ function App() {
   return (
    <main>
    <FormularioTarea/>
-   <ListaTarea></ListaTarea>
    </main> 
   )
 }
