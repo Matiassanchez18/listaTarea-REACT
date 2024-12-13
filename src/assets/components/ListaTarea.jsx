@@ -1,11 +1,15 @@
 import React from 'react';
 import Tarea from './Tarea'
 
-const ListaTarea = () => {
+const ListaTarea = ({arrayTareas}) => {
     return (
         <section>
-            <Tarea/>
-        </section>
+        <article>
+          {arrayTareas.map((tarea, posicion) => (
+            <Tarea key={posicion} tarea={tarea}/>
+          ))}
+        </article>
+      </section>
     );
 };
 

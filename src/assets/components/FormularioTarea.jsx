@@ -64,7 +64,7 @@ const enviadoForm = (data)=>{
         <Form.Text className="text-danger">{errors.tarea?.message}</Form.Text>
         
       </form>
-      <ListaTarea className="mt-3"></ListaTarea>
+      <ListaTarea className="mt-3" arrayTareas={arrayTareas}></ListaTarea>
     </section>
   );
 };
