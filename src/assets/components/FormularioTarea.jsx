@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Button from "react-bootstrap/Button";
-import ListaTarea from "./ListaTarea"
+import ListaTarea from "./ListaTarea";
 import { PlusCircle } from "react-bootstrap-icons";
 import { useForm } from "react-hook-form";
 
@@ -14,55 +14,68 @@ const FormularioTarea = () => {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm()
+  } = useForm();
+
+  const tareaLocalStorage = JSON.parse(localStorage.getItem('arrayTareaKey')) || []
 
   // creamos el array con la variente que va a guardar los elementos en ella
-  const [arrayTareas, setarrayTareas] = useState([])
-
+  const [arrayTareas, setarrayTareas] = useState(tareaLocalStorage);
 
   // aqui data se encarga de recibir lo que se escribio en el form, la variable enviadoForm es la que sucede cuando se toca el boton enviar, some sirve para ir objeto por objeto en el array, setarrayTareas es la funcion que ayuda a guardar los objetos en el array y adentro se la llama a la variante y a los datos que se necesitan agregar,reset se usa para resetear el form.
-const enviadoForm = (data)=>{
-  if (arrayTareas.some((itarea) => itarea === data.tarea.trim())) {
-    alert('la tarea ya existe')
-  }else{
-    setarrayTareas([...arrayTareas, data.tarea])
-    reset()
-    console.log(arrayTareas)
-  }
-}
+  const enviadoForm = (data) => {
+    if (arrayTareas.some((itarea) => itarea === data.tarea.trim())) {
+      alert("la tarea ya existe");
+    } else {
+      setarrayTareas([...arrayTareas, data.tarea]);
+      reset();
+      console.log(arrayTareas);
+    }
+  };
 
+  // sintaxis useEffect
+  // useEffect(()=>(console.log('estoy dentro de useEffect')))
 
-// funcionalidad para eliminar tareas
-const borrarTarea = (tareaBorrar) =>{
-  // busca la tarea que tiene el mismo nombre, que es la que se quiere elimiar, y se encuentra con el filter
-  const tareaEncotrada = arrayTareas.filter((tarea)=> tarea !== tareaBorrar)
-  // aqui se guarda solo la tarea encontrada y la que se va a eliminar.
-  setarrayTareas(tareaEncotrada)
-}
+  // para que se ejecute solo en  montaje no en actualizacion
+  // useEffect(()=>(console.log('estoy dentro de useEffect')), [])
 
+  // para que se ejecute solo en un estado
+  // cada vez que agregue una tarea a lista tarea se ejecuta useEffect y lo guarda en el localstorage
+  useEffect(() =>{ console.log("estoy dentro de useEffect"), localStorage.setItem('arrayTareaKey', JSON.stringify(arrayTareas))}, [arrayTareas]);
+
+  // funcionalidad para eliminar tareas
+  const borrarTarea = (tareaBorrar) => {
+    // busca la tarea que tiene el mismo nombre, que es la que se quiere elimiar, y se encuentra con el filter
+    const tareaEncotrada = arrayTareas.filter((tarea) => tarea !== tareaBorrar);
+    // aqui se guarda solo la tarea encontrada y la que se va a eliminar.
+    setarrayTareas(tareaEncotrada);
+  };
 
   return (
     <section>
       <h1 className="text-center mt-5 border-bottom ">Lista de tarea</h1>
       {/* onSubmit = crea el evento del click en el boton, el handlesubmit se usa para prevenir el enviado y (enviadoForm) llama a la funcion que hace lo que queremos cuando se envie el form */}
-      <form action="" className="w-50 mx-auto px-4 mt-5"  onSubmit={handleSubmit(enviadoForm)}>
+      <form
+        action=""
+        className="w-50 mx-auto px-4 mt-5"
+        onSubmit={handleSubmit(enviadoForm)}
+      >
         <InputGroup className="mb-3">
           <Form.Control
             className="bg-white text-dark"
             placeholder="Ingrese su tarea"
             aria-describedby="basic-addon2"
             // {...register} es para agregar validaciones al form, "tarea" es como queremos que se llame el gurdado de los datos obtenidos en el input
-           {...register("tarea",{
-            required: "Este campo es obligatorio",
-            minLength: {
-              value: 3,
-              message: "El minimo de caracteres es de 3",
-            },
-            maxLength:{
-              value: 15,
-              message: "El maximo de caracteres permitido es de 15",
-            },
-           })}
+            {...register("tarea", {
+              required: "Este campo es obligatorio",
+              minLength: {
+                value: 3,
+                message: "El minimo de caracteres es de 3",
+              },
+              maxLength: {
+                value: 15,
+                message: "El maximo de caracteres permitido es de 15",
+              },
+            })}
           />
           <Button
             variant="outline-secondary"
@@ -75,10 +88,13 @@ const borrarTarea = (tareaBorrar) =>{
         </InputGroup>
         {/* Form.text es para agregar el mensaje de error cuando no se cumple las validaciones */}
         <Form.Text className="text-danger">{errors.tarea?.message}</Form.Text>
-        
       </form>
       {/* aqui se envia la informacion del array al componente que dibuja los slots de las acciones, se puede mandar informacion de padre a hijo */}
-      <ListaTarea className="mt-3" arrayTareas={arrayTareas} borrarTarea ={borrarTarea}></ListaTarea>
+      <ListaTarea
+        className="mt-3"
+        arrayTareas={arrayTareas}
+        borrarTarea={borrarTarea}
+      ></ListaTarea>
     </section>
   );
 };
